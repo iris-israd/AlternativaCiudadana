@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@theme inline{--color-ink:var(--ink);--color-paper:var(--paper);--color-lila:var(--lila);--color-surface:var(--surface);--color-line:var(--line);--color-link:var(--link);
+--color-morado:#6a2c9e;--color-ambar:#f5a31a;--color-rosa:#e23d8b;
+--font-display:"Bricolage Grotesque",system-ui,sans-serif;--font-body:"Newsreader",Georgia,serif;}
+:root,[data-theme=dark]{--ink:#f3ecfa;--paper:#150b1e;--lila:#1f1230;--surface:#261739;--line:#4a3463;--link:#d6b4f7;color-scheme:dark}
+[data-theme=light]{--ink:#24102f;--paper:#faf7fc;--lila:#efe6f7;--surface:#fff;--line:#cdb8e3;--link:#6a2c9e;color-scheme:light}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:1.125rem;line-height:1.65}
+h1,h2,h3,button,nav{font-family:var(--font-display)}
+:focus-visible{outline:3px solid var(--color-ambar);outline-offset:2px}

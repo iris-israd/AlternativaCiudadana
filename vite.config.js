@@ -1,0 +1,16 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tw from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    tw()
+  ],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001'
+    }
+  },
+  base: '/AlternativaCiudadana/' // Updated to match your repository name
+});
