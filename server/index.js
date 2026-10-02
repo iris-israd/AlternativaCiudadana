@@ -16,15 +16,15 @@ app.get('/api/admin/submissions',auth,(q,r)=>r.json(db.prepare('select * from su
 app.post('/api/admin/news',auth,(q,r)=>{const{title,body}=q.body;if(!title||!body)return r.status(400).json({error:'Título y texto son obligatorios'});r.json({id:db.prepare('insert into news(title,body) values(?,?)').run(title,body).lastInsertRowid})});
 app.delete('/api/admin/news/:id',auth,(q,r)=>{db.prepare('delete from news where id=?').run(q.params.id);r.json({ok:true})});
 const age=b=>Math.floor((Date.now()-new Date(b))/31557600000);const bad=(r,m)=>r.status(400).json({error:m});
-app.post('/api/afiliacion',(q,r)=>{const d=q.body||{};if(d.web)return r.json({ok:true});
+app.post('/api/afiliacion',(q,r)=>{const d=q.body||{};if(d.web||d['bot-field'])return r.json({ok:true});
  for(const x of ['tipo','tipo_doc','documento','nombre','apellidos','nacimiento','email','celular','departamento','municipio','tratamiento_datos'])if(!d[x])return bad(r,`Falta el campo: ${x}`);
  if(!['simpatizante','militante'].includes(d.tipo))return bad(r,'Tipo no válido');if(!mail.test(d.email))return bad(r,'Correo no válido');
  if(isNaN(new Date(d.nacimiento)))return bad(r,'Fecha no válida');const a=age(d.nacimiento);if(a<14)return bad(r,'La afiliación es desde los 14 años (art. 14).');
  if(d.tipo==='militante'&&!(d.nacionalidad&&d.acepta_estatutos&&d.sin_doble_militancia))return bad(r,'Para ser militante debes aceptar todas las declaraciones.');
- if(a<18){if(!(d.tutor_nombre&&d.tutor_documento&&d.tutor_autoriza))return bad(r,'Menores de 18: se requiere nombre, documento y autorización del representante legal (art. 18B).');if(d.tipo==='militante'&&d.tipo_doc!=='Tarjeta de identidad')return bad(r,'Los militantes menores de edad deben presentar tarjeta de identidad (art. 18A).');}
+ if(a<18){if(!d.tutor_autoriza)return bad(r,'Menores de 18: marca la autorización de tu representante legal (art. 18B).');if(d.tipo==='militante'&&d.tipo_doc!=='Tarjeta de identidad')return bad(r,'Los militantes menores de edad deben presentar tarjeta de identidad (art. 18A).');}
  if(db.prepare("select id from members where documento=? and estado!='retirado'").get(String(d.documento)))return r.status(409).json({error:'Ya existe una afiliación con ese documento. Consulta tu certificado en Mi afiliación.'});
  const estado=d.tipo==='militante'?'pendiente':'activo';
- const id=Number(db.prepare('insert into members(tipo,tipo_doc,documento,nombre,apellidos,nacimiento,email,celular,departamento,municipio,juvenil,tutor,estado) values(?,?,?,?,?,?,?,?,?,?,?,?,?)').run(d.tipo,d.tipo_doc,String(d.documento),d.nombre,d.apellidos,d.nacimiento,d.email.toLowerCase(),d.celular,d.departamento,d.municipio,a<18?1:0,a<18?JSON.stringify({n:d.tutor_nombre,d:d.tutor_documento}):'',estado).lastInsertRowid);
+ const id=Number(db.prepare('insert into members(tipo,tipo_doc,documento,nombre,apellidos,nacimiento,email,celular,departamento,municipio,juvenil,tutor,estado) values(?,?,?,?,?,?,?,?,?,?,?,?,?)').run(d.tipo,d.tipo_doc,String(d.documento),d.nombre,d.apellidos,d.nacimiento,d.email.toLowerCase(),d.celular,d.departamento,d.municipio,a<18?1:0,a<18?'autorizado':'',estado).lastInsertRowid);
  const codigo='MAC-'+String(id).padStart(6,'0');db.prepare('update members set codigo=? where id=?').run(codigo,id);r.json({ok:true,codigo,estado,tipo:d.tipo});});
 const mine=(d)=>d&&d.documento&&d.email?db.prepare('select * from members where documento=? and email=? order by id desc').get(String(d.documento),String(d.email).toLowerCase()):null;
 app.post('/api/certificado',(q,r)=>{const m=mine(q.body);if(!m)return r.status(404).json({error:'No encontramos una afiliación con esos datos.'});r.json({codigo:m.codigo,nombre:m.nombre+' '+m.apellidos,tipo:m.tipo,estado:m.estado,created:m.created,juvenil:!!m.juvenil});});
@@ -39,7 +39,7 @@ app.get('/api/admin/members',auth,(q,r)=>r.json(db.prepare('select * from member
 app.post('/api/admin/members/:id',auth,(q,r)=>{if(!['activo','suspendido','retirado','pendiente'].includes(q.body.estado))return bad(r,'Estado no válido');db.prepare('update members set estado=? where id=?').run(q.body.estado,q.params.id);r.json({ok:true})});
 app.post('/api/admin/movimientos',auth,(q,r)=>{const m=q.body;if(!m.campana||!m.concepto||!m.fecha||!(Number(m.monto)>0)||!['ingreso','gasto'].includes(m.tipo))return bad(r,'Datos del movimiento incompletos');db.prepare('insert into movimientos(campana,tipo,concepto,fecha,monto) values(?,?,?,?,?)').run(m.campana,m.tipo,m.concepto,m.fecha,Number(m.monto));r.json({ok:true})});
 app.post('/api/:kind',(q,r)=>{const k=q.params.kind,f=S[k];if(!f)return r.status(404).json({error:'No existe'});const d=q.body||{};
- if(d.web)return r.json({ok:true});
+ if(d.web||d['bot-field'])return r.json({ok:true});
  for(const x of f)if(!d[x])return r.status(400).json({error:`Falta el campo: ${x}`});
  if(!mail.test(d.email))return r.status(400).json({error:'Correo no válido'});
  if(k==='afiliacion'){const b=new Date(d.nacimiento);if(isNaN(b))return r.status(400).json({error:'Fecha no válida'});

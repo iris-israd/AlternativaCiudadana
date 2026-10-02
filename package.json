@@ -4,11 +4,11 @@
  "type": "module",
  "scripts": {
   "dev": "vite",
+  "dev:express": "vite --mode express",
   "server": "node server/index.js",
   "build": "vite build",
-  "start": "vite build && node server/index.js",
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d dist"
+  "build:express": "vite build --mode express",
+  "start": "vite build --mode express && node server/index.js"
  },
  "dependencies": {
   "express": "^4.19.2",
@@ -19,7 +19,6 @@
  "devDependencies": {
   "@tailwindcss/vite": "^4.0.0",
   "@vitejs/plugin-react": "^4.3.1",
-  "gh-pages": "^6.3.0",
   "tailwindcss": "^4.0.0",
   "vite": "^5.4.0"
  },

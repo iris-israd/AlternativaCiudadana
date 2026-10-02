@@ -1,9 +1,11 @@
 # Web del MAC
-Requisitos: Node 18+.
-    npm install
-    ADMIN_KEY=tu-clave npm start      # compila y sirve en http://localhost:3001
-Desarrollo: `npm run server` (API) y `npm run dev` (Vite) en dos terminales.
-Admin: /admin (clave = ADMIN_KEY). Datos en server/mac.db (SQLite).
-Pendiente: pasarela de pagos, envío de correos, colores definitivos y música del himno.
-# AlternativaCiudadana
-# AlternativaCiudadana
+
+## Opción A: Netlify (recomendada)
+Formularios con Netlify Forms; noticias y cuentas desde `public/noticias.json` y `public/finanzas.json`.
+1. Sube la carpeta a un repositorio de GitHub.
+2. En Netlify: Add new site > Import an existing project. Netlify lee `netlify.toml` (build `npm run build`, publica `dist`).
+3. Tras el primer deploy, revisa Forms: deben aparecer afiliacion, voluntariado, contacto, donacion, certificado, aval y renuncia. Activa avisos por correo en Forms > Form notifications.
+(Alternativa sin Git: `npm install && npm run build` y arrastra `dist` a app.netlify.com/drop.)
+
+## Opción B: servidor propio (Express + SQLite)
+Necesita Node 22.5+ y disco persistente (VPS, Railway, Render con disco, Fly). `npm install` y `ADMIN_KEY=clave npm start`. Panel en /admin.
