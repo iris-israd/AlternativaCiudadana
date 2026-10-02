@@ -1,11 +1,14 @@
-# Web del MAC
+# Web del MAC (Netlify Functions + Netlify Blobs)
 
-## Opción A: Netlify (recomendada)
-Formularios con Netlify Forms; noticias y cuentas desde `public/noticias.json` y `public/finanzas.json`.
-1. Sube la carpeta a un repositorio de GitHub.
-2. En Netlify: Add new site > Import an existing project. Netlify lee `netlify.toml` (build `npm run build`, publica `dist`).
-3. Tras el primer deploy, revisa Forms: deben aparecer afiliacion, voluntariado, contacto, donacion, certificado, aval y renuncia. Activa avisos por correo en Forms > Form notifications.
-(Alternativa sin Git: `npm install && npm run build` y arrastra `dist` a app.netlify.com/drop.)
+## Desplegar
+1. Sube la carpeta a GitHub e impórtala en Netlify (Add new site > Import an existing project). `netlify.toml` ya configura todo.
+2. **Obligatorio:** Site configuration > Environment variables > crea `ADMIN_KEY` con una clave larga (marca "Contains secret values"). Sin ella el panel /admin queda bloqueado. Vuelve a desplegar.
+3. Entra a `/admin` con esa clave: valida militantes, publica noticias y registra movimientos financieros.
+No hay base de datos que instalar: los datos viven en Netlify Blobs (incluido en tu sitio).
+El despliegue por arrastrar `dist` NO sirve: las funciones requieren despliegue desde Git o CLI.
 
-## Opción B: servidor propio (Express + SQLite)
-Necesita Node 22.5+ y disco persistente (VPS, Railway, Render con disco, Fly). `npm install` y `ADMIN_KEY=clave npm start`. Panel en /admin.
+## Local
+`npm install` y `npm run dev` (usa Netlify CLI; simula funciones y Blobs). Con `ADMIN_KEY=clave npm run dev`.
+
+## Flujo de afiliación
+Simpatizante: queda activo y recibe un código `MAC-XXXXXX`. Militante: queda "pendiente" hasta que el admin lo activa. Con documento + correo la persona consulta su certificado, pide aval (solo militantes activos) o renuncia. Un documento solo puede tener una afiliación vigente.

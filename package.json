@@ -3,15 +3,11 @@
  "version": "1.0.0",
  "type": "module",
  "scripts": {
-  "dev": "vite",
-  "dev:express": "vite --mode express",
-  "server": "node server/index.js",
-  "build": "vite build",
-  "build:express": "vite build --mode express",
-  "start": "vite build --mode express && node server/index.js"
+  "dev": "npx netlify-cli dev",
+  "build": "vite build"
  },
  "dependencies": {
-  "express": "^4.19.2",
+  "@netlify/blobs": "^8.1.0",
   "react": "^18.3.1",
   "react-dom": "^18.3.1",
   "react-router-dom": "^6.26.0"
@@ -23,6 +19,6 @@
   "vite": "^5.4.0"
  },
  "engines": {
-  "node": ">=22.5"
+  "node": ">=18"
  }
 }
