@@ -1,18 +1,36 @@
-# Web del MAC (React + Tailwind + Netlify Forms)
+# Web del MAC: registro de militantes (Netlify Functions + Supabase)
 
-## Desplegar
-1. Sube esta carpeta a GitHub e impórtala en Netlify (Add new site > Import an existing project). `netlify.toml` ya configura todo. También sirve `npm install && npm run build` y arrastrar `dist` a app.netlify.com/drop.
-2. En el primer deploy, Netlify detecta los formularios ocultos de `index.html`. Revisa Forms: deben aparecer afiliacion, voluntariado, contacto, donacion, certificado, aval y renuncia.
-3. Forms > Form notifications: agrega un aviso por correo para cada formulario (sobre todo afiliacion, certificado, aval y renuncia).
+## Archivos clave
+- `supabase/migrations/20261003000000_militantes.sql`: tabla `militantes`, índices, RLS y función de supresión.
+- `netlify/functions/registrar-militante.js`: API serverless (POST /api/registrar-militante).
+- `src/FormularioMilitante.jsx` y `src/comisiones.js`: formulario y lista de comisiones (la usan front y función).
+- `tests/registrar-militante.test.mjs`: `npm test` (21 pruebas, sin base de datos real).
+- `netlify.toml`, `.env.example`.
 
-## Cómo funciona la afiliación con Netlify Forms
-Netlify guarda cada envío; no hay base de datos propia ni códigos automáticos. El equipo revisa Forms: valida a los militantes (doble militancia), responde los certificados, estudia los avales y procesa las renuncias. Las respuestas se pueden exportar a CSV desde Forms.
+## 1. Supabase
+1. Crea un proyecto en supabase.com (región cercana, p. ej. South America São Paulo) y guarda la contraseña de la base.
+2. SQL Editor > New query: pega TODO el archivo de `supabase/migrations/` y ejecútalo. Debe decir "Success".
+3. Table Editor: confirma que `militantes` existe y muestra el candado de RLS activo.
+4. Project Settings > API: copia la Project URL y la clave secreta (`service_role`, o `sb_secret_...` en proyectos nuevos). Nunca la pongas en el código ni en variables que empiecen por `VITE_`.
 
-## Contenido editable (sin código)
-- `public/noticias.json`: lista de noticias `{id,title,body,created}`.
-- `public/finanzas.json`: `{"movimientos":[{"campana":"Nombre","tipo":"ingreso|gasto","concepto":"...","fecha":"2026-10-01","monto":100000}]}`. La página de Transparencia calcula los totales.
-- Estatutos y plan: reemplaza `public/Estatutos-de-MAC.pdf` y `public/Plan-de-Gobierno-MAC.pdf`.
-- Capítulos del plan: `src/plan.js`.
+## 2. Netlify
+1. Sube el repo a GitHub e impórtalo en Netlify (Add new site > Import an existing project). `netlify.toml` ya define build, carpeta de funciones y rutas.
+2. Site configuration > Environment variables > Add a variable:
+   - `SUPABASE_URL` = la Project URL
+   - `SUPABASE_SERVICE_ROLE_KEY` = la clave secreta (marca "Contains secret values")
+   - Opcional (anti-bots reforzado): `TURNSTILE_SECRET_KEY` (secreto) y `VITE_TURNSTILE_SITEKEY` (pública). Se crean en Cloudflare > Turnstile.
+3. Deploys > Trigger deploy > Deploy site (las variables solo aplican a deploys nuevos).
 
-## Local
-`npm install` y `npm run dev`. Los formularios solo funcionan ya desplegados en Netlify.
+## 3. Verificar en producción (reemplaza TU-SITIO)
+    # 405 con JSON = la función está viva
+    curl -i https://TU-SITIO.netlify.app/api/registrar-militante
+    # 400 con mensaje de validación = llega a la función
+    curl -i -X POST https://TU-SITIO.netlify.app/api/registrar-militante -H "Content-Type: application/json" -d '{}'
+Luego haz un registro real desde /unete y revisa la fila en Supabase > Table Editor. Registra de nuevo los mismos datos: debe responder 400 "Ya existe un registro...". Errores: Netlify > Logs > Functions > registrar-militante. Si ves 500, casi siempre faltan las variables o no se ejecutó el SQL.
+Límite por IP: Site configuration > Security > Rate limiting rules (debe aparecer la regla de la función).
+
+## 4. Habeas Data (Ley 1581 de 2012)
+- Se guarda cuándo y bajo qué versión de la política aceptó cada persona (`habeas_data_at`, `habeas_data_version`). Si cambias la política, sube `VERSION_POLITICA` en la función.
+- Derecho de supresión: SQL Editor > `select public.anonimizar_militante(ID);`
+- Partidos: los datos de afiliación política son sensibles. Designa un responsable del tratamiento, publica la política en /privacidad y revisa todo con un abogado.
+- La base solo se accede con la clave secreta, desde la función. No la compartas ni uses la clave pública (anon) con esta tabla.
