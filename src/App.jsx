@@ -30,9 +30,8 @@ function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-bg/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-        <Link to="/" className="flex items-center gap-2" aria-label="Inicio">
-          <img src="/simbolo.svg" alt="" className="h-10 w-10" />
-          <Wordmark className="text-lg" />
+        <Link to="/" aria-label="Alternativa Ciudadana, inicio">
+          <img src="/logo.svg" alt="Alternativa Ciudadana" className="h-10" />
         </Link>
         <nav className="ml-auto hidden items-center gap-5 text-sm font-medium lg:flex">
           {NAV.map(([to, t]) => (
@@ -61,7 +60,7 @@ function Footer() {
     <footer className="mt-20 border-t border-line">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-4">
         <div className="md:col-span-2">
-          <div className="inline-block rounded-xl bg-white p-3"><img src="/logo.svg" alt="Alternativa Ciudadana" className="h-14" /></div>
+          <img src="/logo.svg" alt="Alternativa Ciudadana" className="h-14" />
           <p className="mt-4 max-w-sm text-sm text-mut">Movimiento Alternativa Ciudadana (MAC). Santiago de Cali, Valle del Cauca. «Lo que nos une, nos representa».</p>
         </div>
         <div className="text-sm">
@@ -80,7 +79,7 @@ function Footer() {
 
 const Page = ({ title, intro, children }) => (
   <main className="mx-auto max-w-6xl px-4 py-12">
-    <h1 className="font-display text-5xl tracking-wide md:text-6xl">{title}</h1>
+    <h1 className="font-display text-5xl md:text-6xl">{title}</h1>
     {intro && <p className="mt-4 max-w-2xl text-lg text-mut">{intro}</p>}
     <div className="mt-10">{children}</div>
   </main>
@@ -198,7 +197,7 @@ function Consulta() {
       {res && !res.found && <p className="mt-6 text-mut">No hay una afiliación con ese documento. Si te afiliaste hace pocos minutos, espera un momento y reintenta, o <Link to="/afiliate" className="underline">afíliate aquí</Link>.</p>}
       {res?.found && (
         <div className="mt-8 max-w-md overflow-hidden rounded-2xl border border-line bg-card">
-          <div className="flex items-center gap-3 bg-gradient-to-r from-mor to-ros p-4 text-white"><img src="/simbolo.svg" alt="" className="h-12 w-12 rounded-full bg-white p-1" /><div><p className="font-display text-xl">CARNET DIGITAL MAC</p><p className="text-xs">{res.juvenil ? "Militante juvenil · JAC" : "Afiliado"}</p></div></div>
+          <div className="flex items-center gap-3 border-b border-line bg-[#1b1128] p-4 text-white"><img src="/simbolo.svg" alt="" className="h-12 w-12" /><div><p className="font-display text-xl">CARNET DIGITAL MAC</p><p className="text-xs">{res.juvenil ? "Militante juvenil · JAC" : "Afiliado"}</p></div></div>
           <dl className="grid gap-2 p-5 text-sm">
             <div><dt className="text-mut">Número</dt><dd className="text-xl font-bold text-ambar">{res.numero}</dd></div>
             <div><dt className="text-mut">Nombre</dt><dd className="font-bold">{res.nombre}</dd></div>
@@ -236,12 +235,11 @@ function Home() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-mor/40 via-transparent to-ros/20" />
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 md:grid-cols-2">
           <div>
-            <p className="font-bold text-ambar">Movimiento de centro a centroizquierda</p>
-            <h1 className="mt-3 font-display text-6xl leading-none md:text-7xl">Gobernar para <span className="grad-t">todos</span></h1>
+            <h1 className="font-display text-6xl leading-none md:text-7xl">Gobernar para <span className="grad-t">todos</span></h1>
             <p className="mt-6 max-w-lg text-lg text-mut">Socialdemocracia con rigor, cercanía, transparencia y pluralidad. Un país por construir, con las manos abiertas.</p>
             <div className="mt-8 flex flex-wrap gap-3"><Link to="/afiliate" className="btn">Afíliate</Link><Link to="/programa" className="btn2">Conoce el escorcianismo</Link></div>
           </div>
-          <div className="rounded-3xl bg-white p-8 shadow-2xl"><img src="/logo.svg" alt="Alternativa Ciudadana" /></div>
+          <img src="/logo.svg" alt="Alternativa Ciudadana" className="w-full" />
         </div>
       </section>
       <section className="mx-auto max-w-6xl px-4 py-12">
@@ -270,12 +268,12 @@ function Nosotros() {
         <Card t="Historia">El movimiento surgió el 23 de abril de 2026 como Movimiento Nueva Síntesis, a partir del descontento con los candidatos llevados a las elecciones presidenciales de ese año, la alta fragmentación de los partidos tradicionales y la creciente polarización del país. Se constituyó como movimiento independiente el 30 de agosto de 2026 en Santiago de Cali, Valle del Cauca.</Card>
         <Card t="Símbolos">Colores ámbar, morado y rosa. El logotipo son dos trazos que convergen en una «A», un arco que los une como puente y un punto superior: la ciudadanía que se encuentra y construye en común. Lemas: «Gobernar para todos», «Lo que nos une, nos representa» y «Democracia que construye».</Card>
       </div>
-      <h2 className="mt-14 font-display text-4xl">Fundadoras</h2>
+      <h2 className="mt-14 font-display text-4xl">Liderazgo</h2>
       <div className="mt-6 grid gap-6 md:grid-cols-2">
-        <Card t="Iris Maia Escorcia">Ingeniera y política. Fundadora del movimiento, creadora del escorcianismo y del tecnodesarrollismo. Candidata a la Presidencia de la República. Impulsó desde el 29 de diciembre de 2025 un ala reformista dentro del Partido Liberal Colombiano.</Card>
-        <Card t="María Camila Herrera">Fundadora y cofundadora del movimiento. Candidata a la Vicepresidencia de la República y apoyo en la redacción del plan de gobierno. «El progreso verdadero no deja a nadie atrás.»</Card>
+        <Card t="Iris Maia Escorcia · Fundadora y presidenta">Ingeniera y política. Fundadora y presidenta del movimiento, creadora del escorcianismo y del tecnodesarrollismo. Candidata a la Presidencia de la República. Impulsó desde el 29 de diciembre de 2025 un ala reformista dentro del Partido Liberal Colombiano.</Card>
+        <Card t="María Camila Herrera · Secretaria general">Lleva las actas, el registro de afiliados y los libros del movimiento, y apoya a la Presidencia en la coordinación de los órganos (art. 27). Candidata a la Vicepresidencia de la República. «El progreso verdadero no deja a nadie atrás.»</Card>
       </div>
-      <p className="mt-4 text-sm text-mut">Hasta la primera Convención Nacional, el movimiento lo dirige el Comité Fundador, integrado por ambas fundadoras (arts. 58-59).</p>
+      <p className="mt-4 text-sm text-mut">Hasta la primera Convención Nacional, la Presidencia la ejerce Iris Maia Escorcia, fundadora del movimiento.</p>
       <h2 className="mt-14 font-display text-4xl">Valores rectores</h2>
       <div className="mt-6 grid gap-4 md:grid-cols-2">{VALORES.map(([t, d]) => <Card key={t} t={t}>{d}</Card>)}</div>
       <h2 className="mt-14 font-display text-4xl">Cómo nos organizamos</h2>

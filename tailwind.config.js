@@ -7,7 +7,7 @@ export default {
         ambar: "#f5a31a", mor: "#6a2c9e", ros: "#e23d8b",
         bg: "var(--bg)", fg: "var(--fg)", card: "var(--card)", mut: "var(--mut)", line: "var(--line)",
       },
-      fontFamily: { display: ["Anton", "Impact", "sans-serif"], sans: ["Figtree", "system-ui", "sans-serif"] },
+      fontFamily: { display: ["Bricolage Grotesque", "system-ui", "sans-serif"], ui: ["Bricolage Grotesque", "system-ui", "sans-serif"], sans: ["Newsreader", "Georgia", "serif"] },
     },
   },
 };
