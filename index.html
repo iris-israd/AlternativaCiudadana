@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alternativa Ciudadana (MAC) — Democracia que construye</title>
+  <meta name="description" content="Movimiento Alternativa Ciudadana: socialdemocracia, rigor, cercanía, transparencia y pluralidad." />
+  <link rel="icon" href="/simbolo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>try{if(localStorage.getItem("mac-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Formularios para detección de Netlify Forms (no se muestran) -->
+  <form name="afiliacion" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" />
+    <input name="nombres" /><input name="apellidos" /><input name="tipo_documento" /><input name="documento" />
+    <input name="fecha_nacimiento" /><input name="email" /><input name="telefono" /><input name="departamento" />
+    <input name="municipio" /><input name="rep_nombre" /><input name="rep_documento" /><input name="rep_parentesco" />
+    <input name="rep_autoriza" /><input name="acepta_estatutos" /><input name="no_doble_militancia" /><input name="tratamiento_datos" />
+  </form>
+  <form name="retiro" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="documento" /><input name="email" /><input name="motivo" />
+  </form>
+  <form name="voluntariado" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="nombre" /><input name="email" /><input name="telefono" /><input name="municipio" /><input name="area" /><input name="mensaje" />
+  </form>
+  <form name="contacto" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="nombre" /><input name="email" /><input name="asunto" /><input name="mensaje" />
+  </form>
+  <form name="denuncia" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="tipo" /><input name="relato" /><input name="contacto_opcional" />
+  </form>
+  <form name="boletin" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="email" />
+  </form>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

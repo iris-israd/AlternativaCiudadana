@@ -1,0 +1,13 @@
+{
+  "corte": "2026-10-03",
+  "nota": "Datos publicados por la Tesorería y la Veeduría de Transparencia. Se actualizan editando este archivo y publicando el sitio. Aún no hay movimientos financieros registrados.",
+  "ingresos": [],
+  "gastos": [],
+  "donantes": [],
+  "contratos": [],
+  "decisiones": [
+    {"fecha":"2026-04-23","titulo":"Surge el Movimiento Nueva Síntesis","detalle":"Antecedente del MAC."},
+    {"fecha":"2026-08-30","titulo":"Constitución como movimiento independiente","detalle":"Santiago de Cali, por iniciativa de Iris Maia Escorcia y María Camila Herrera."}
+  ],
+  "errores": []
+}
