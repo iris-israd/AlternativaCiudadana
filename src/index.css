@@ -3,7 +3,7 @@
 @tailwind utilities;
 :root{--bg:#fbf8fd;--fg:#1d1228;--card:#ffffff;--mut:#5d4f6b;--line:#e3d8ee}
 :root.dark{--bg:#110a1a;--fg:#f4eefa;--card:#1b1128;--mut:#b4a6c4;--line:#33244a}
-body{background:var(--bg);color:var(--fg);font-family:Newsreader,Georgia,serif;font-size:1.125rem;line-height:1.6}
+body{background:var(--bg);color:var(--fg);font-family:Figtree,system-ui,sans-serif;font-size:1rem;line-height:1.5}
 h1,h2,h3,h4,nav,button,input,select,textarea,label,th,dt,.btn,.btn2,.font-display,.font-ui{font-family:'Bricolage Grotesque',system-ui,sans-serif}
 h1,h2,h3,.font-display{font-weight:800;letter-spacing:-0.02em;line-height:1.05}
 h3{font-weight:600;letter-spacing:0}
